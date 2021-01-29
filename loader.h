@@ -13,7 +13,7 @@ class Symbol{
     public:
         enum SymbolType{
             SYM_TYPE_UKN = 0,
-            SYM_TYPE_FUNC 0 1
+            SYM_TYPE_FUNC = 1
         };
         SymbolType type;
         std::string name;
@@ -39,7 +39,7 @@ class Section{
         Section() : binary(NULL), name(), type(SEC_TYPE_NONE), vma(0), size(0), bytes(NULL) {}
 
         bool contains(uint64_t address){
-            return (address >= vma) && (address-vma <= size)
+            return (address >= vma) && (address-vma <= size);
         }
 };
 
@@ -67,7 +67,7 @@ class Binary{
         Binary() : type(BIN_TYPE_AUTO), arch(ARCH_NONE), bits(0), entry(0) {}
 
         Section *get_text_section(){
-            for(auto *s : sections)
+            for(auto &s : sections)
                 if(s.name == ".text") 
                     return &s;
                 return NULL;
