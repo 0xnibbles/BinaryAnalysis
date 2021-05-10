@@ -119,3 +119,43 @@ static int load_binary_bfd(std::string &fname, Binary *bin, Binary::Binary type)
 
 }
 
+static int load_sections_bfd(bfd *bfd_h, Binary *bin){
+    int bfd_flags;
+    uint64_t vma, size;
+    const char *secname;
+    asection* bfd_sec;
+    Section *sec;
+    Section::SectionType sectype;
+
+    for(bfd_sec = bfd_h->sections; bfd_sec; bfd_sec = bfd_sec->next){
+        bfd_flags = bfd_get_section_flags(bfd_h, bfd_sec);
+
+        sectype = Section::SEC_TYPE_NONE;
+        if(bfd_flags & SEC_CODE){
+            sectype = Section::SEC_TYPE_CODE;
+        }else if (bfd_flags & SEC_DATA){
+            sectype = Section::SEC_TYPE_DATA;
+        }else{
+            continue;
+        }
+        vma = bfd_section_vma(bfd_h, bfd_sec);
+        size = bfd_section_size(bfd_h, bfd_sec);
+        secname = bfd_section_name(bfd_h,bfd_sec);
+        if(!secname)
+            secname = "<unnamed>";
+        
+        bin->sections.push_back(Section());
+        sec->binary = bin;
+        src-> name = stf::string(secname);
+        sec->type = sectype;
+        sec->vma = vma;
+        sec->size = size;
+        sec->bytes = (uint8_t*)malloc(size);
+        if(!sec->bytes){
+            fprintf(stderr,"out of memory\n");
+            return -1;
+        }        
+    }
+    return 0;
+}
+
