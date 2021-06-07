@@ -2,7 +2,6 @@
 
 Messing a little bit with linux binaries and learning how at the low level things work.
 All the stuff here is made with the purpose to prepare myself for binary exploitation.
-Learning based on the book Pratical Binary Analysis of Dennis Andriesse
 
 > Learn how to build to know where to "destroy"
 
